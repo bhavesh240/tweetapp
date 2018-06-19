@@ -1,0 +1,12 @@
+<%= form_with(model: [@post, @post.comments.build], remote: true) do |form| %>
+
+  <p>
+    <%= form.label :comment %>
+    <%= form.text_field :comment %>
+  </p>
+
+  <p>
+    <%= form.submit :Comment %>
+  </p>
+<% end %>
+

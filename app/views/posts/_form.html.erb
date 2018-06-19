@@ -1,0 +1,44 @@
+<%= form_with model: @post,url: posts_path ,html: { multipart: true },local: true do |form| %>
+
+<% if @post.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(@post.errors.count, "error") %> Prohibited this
+      Post to Be Published
+    </h2>
+    <ul>
+      <% @post.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<p>
+  <%= form.label :title %><br>
+  <%= form.text_field :title %>
+</p>
+
+<p>
+  <%= form.label :body %><br>
+  <%= form.text_area :body %>
+</p>
+
+<div>
+  <p><strong>Images:</strong></p>
+
+  <div id="images">
+    <%= form.fields_for :images,:html => { :multipart => true }  do |image_field| %>
+      <%= render 'image_fields',f: image_field %>
+    <% end %>
+
+    <div class="links">
+      <%= link_to_add_association 'Add Image',form,:images, class: "btn btn-primary" %><br>
+    </div>
+  </div>
+</div>
+<br>
+<p>
+  <%= form.submit :Publish, class: "btn btn-success btn-lg" %>
+</p>
+<% end %>

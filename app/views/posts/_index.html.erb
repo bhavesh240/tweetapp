@@ -1,0 +1,47 @@
+<table id="post_table",class=" table table-striped" width="100%" role='datatable'>
+  <thead>
+    <tr>
+      <th>User_id</th>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Image</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @posts.each do |post| %>
+      <% if can? :read, post %>
+        <tr>
+          <td><%= post[:user_id] %></td>
+          <td><%= post.title %></td>
+          <td><%= post.body %></td>
+          <td>
+            <% post.images.each do |image|%>
+              <%= link_to image_tag(image.image.url(:thumb).to_s) %>
+            <% end %>
+          </td>
+          <td><%= link_to 'Show', post_path(post), class: "btn btn-info" if can? :read, post %></td>
+          <td><%= link_to 'Edit', edit_post_path(post),class: "btn btn-primary" if can? :update, post %></td>
+          <td><%= link_to 'Delete', post_path(post),
+                                  method: :delete,
+                                  data: { confirm: 'Are you sure ?'},
+                                  remote: true,class: "btn btn-warning" if can? :destroy, post 
+          %></td>
+
+          <% if (post[:verify]==true) && (current_user.has_role? :admin) %>
+            <td><%= "Post Verified" %></td>
+          <% else %>
+            <td>
+              <%= link_to 'Verify',verify_post_post_path(post),remote: true,class: "btn btn-success" if can? :verify_post, post %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+

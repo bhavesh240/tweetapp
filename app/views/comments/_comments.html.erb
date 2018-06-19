@@ -1,0 +1,20 @@
+<% @post.comments.each do |comment| %>
+  <p>
+    <strong>User_id: </strong>
+    <%= comment[:user_id] %>
+  </p>
+
+  <p>
+    <strong>Comment: </strong>
+    <%= comment.comment %>
+  </p>
+
+  <p>
+    <%= link_to 'Delete Comment', [comment.post,comment],
+                                method: :delete,
+                                data: { confirm: 'Are you Sure ?'},
+                                remote: true if can? :destroy,comment %>
+  </p>
+  <hr>
+
+<% end %>

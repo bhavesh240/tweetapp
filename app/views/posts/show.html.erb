@@ -1,0 +1,43 @@
+<p>
+  <strong>User_Id: </strong>
+  <%= @post[:user_id] %>
+</p>
+
+<p>
+  <strong>Title: </strong>
+  <%= @post.title %>
+</p>
+
+<p>
+  <strong>Body: </strong>
+  <%= @post.body %>
+</p>
+
+<p>
+  <strong>Image: </strong><br>
+  <% @post.images.each do |image| %>
+    <%= link_to image_tag(image.image.url(:thumb), :alt => "No  Thumb Available"), image.image.url %>
+  <% end %>
+</p>
+
+<hr>
+   
+  <h2>Comments</h2>
+
+  <div id="comments">
+    <%= render 'comments/comments' %>
+  </div>
+
+<hr>
+
+  <h2>Add Comment</h2>
+
+<div id="">
+  <%= render 'comments/form' %>
+</div>
+
+<%= link_to 'All Posts', posts_path %>
+
+<% if can? :update, @post %>
+  || <%= link_to 'Edit_post', edit_post_path(@post) %>
+<% end %>
